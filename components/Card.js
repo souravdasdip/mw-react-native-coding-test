@@ -1,12 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { withModal } from '../hoc/withModal';
 
-const Card = ({ card}) => {
+const Card = ({ card, openModal }) => {
   return (
-      <View style={styles.container}>
-        <Text style={styles.title}>{card.title}</Text>
-        <Text style={styles.description}>{card.description}</Text>
-      </View>
+    <TouchableOpacity onPress={() => openModal(card)} style={styles.container}>
+      <Text style={styles.title}>{card.title}</Text>
+      <Text style={styles.description}>{card.description}</Text>
+    </TouchableOpacity>
   );
 };
 
@@ -27,4 +28,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Card;
+export default withModal(Card);

@@ -1,25 +1,21 @@
-import React, { useState } from 'react';
-import { StyleSheet, ScrollView, ImageBackground, Dimensions, Text } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Phase from './components/Phase';
-import phasesData from './data/phases.json'
-import Button from './components/Button';
+import React from 'react';
+import { Dimensions, ImageBackground, StyleSheet, Text } from 'react-native';
+import Phases from './components/Phases';
+import { TaskProvider } from './store/TaskContext';
 
 const Stack = createStackNavigator();
-const screenHeight = Dimensions.get('window').height; 
-const screenWidth = Dimensions.get('window').width; 
+const screenHeight = Dimensions.get('window').height;
+const screenWidth = Dimensions.get('window').width;
 
 const App = () => {
-  const [phases, setPhases] = useState(phasesData);
-
   return (
-    <ImageBackground source={require('./assets/background.jpg')} style={styles.backgroundImage} resizeMode="stretch">
-      <Text style={styles.title}>MW - TODO</Text>
-      <ScrollView horizontal style={styles.container}>
-          {phases.map(phase => <Phase key={phase.id} phase={phase}/>)}
-          <Button title={'+ Add phase'} />
-      </ScrollView>
-    </ImageBackground>
+    <TaskProvider>
+      <ImageBackground source={require('./assets/background.jpg')} style={styles.backgroundImage} resizeMode="stretch">
+        <Text style={styles.title}>MW - TODO</Text>
+        <Phases />
+      </ImageBackground>
+    </TaskProvider>
   );
 };
 
@@ -31,16 +27,11 @@ const styles = StyleSheet.create({
     marginTop: 48,
     marginBottom: 6
   },
-  container: {
-    margin: 5,
-    gap: 10,
-    marginRight: 16
-  },
   backgroundImage: {
-    height: screenHeight, 
-    width: screenWidth, 
-    justifyContent: 'center', 
-    alignItems: 'center', 
+    height: screenHeight,
+    width: screenWidth,
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 });
 

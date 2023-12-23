@@ -1,23 +1,23 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import Card from './Card';
+import { Button as RnButton, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { withModal } from '../hoc/withModal';
 import Button from './Button';
-import { Button as RnButton } from 'react-native';
+import Card from './Card';
 
-const Phase = ({ phase}) => {
-  
+const Phase = ({ phase, openModal }) => {
+
   return (
     <View>
       <View style={styles.container}>
-          <View style={styles.header}>
-            <Text style={styles.title}>{phase.title}</Text>
-            <RnButton title='...' color={'#fff'} />
-          </View>
+        <View style={styles.header}>
+          <Text style={styles.title}>{phase.title}</Text>
+          <RnButton title='...' color={'#fff'} />
+        </View>
 
-          <ScrollView>
-            {phase.cards?.map(card => <Card key={card.id} card={card} />)}
-            <Button title={'+ Add card'} />
-          </ScrollView>
+        <ScrollView>
+          {phase.cards?.map(card => <Card key={card.id} card={card} />)}
+          <Button onPress={openModal} title={'+ Add card'} />
+        </ScrollView>
       </View>
 
     </View>
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginBottom: 30
   },
-  header:{
+  header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -52,4 +52,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Phase;
+export default withModal(Phase);

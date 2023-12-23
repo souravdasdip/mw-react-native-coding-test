@@ -1,10 +1,10 @@
-import React from 'react'
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import React from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-export default function Button({title}) {
+function Button({ title, onPress }) {
   return (
     <View>
-      <Pressable style={styles.button}>
+      <Pressable onPress={onPress} style={styles.button}>
         <Text style={styles.text}> {title} </Text>
       </Pressable>
     </View>
@@ -25,3 +25,5 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 });
+
+export default Button
