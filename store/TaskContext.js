@@ -56,6 +56,14 @@ export const TaskProvider = ({ children }) => {
         setPhases(updatedData);
     };
 
+    const addPhase = (phase_title) => {
+        const newPhase = {
+            id: Math.random(),
+            title: phase_title,
+            cards: []
+        };
+        setPhases(prev => [...prev, newPhase]);
+    };
 
     const value = {
         phases,
@@ -63,7 +71,8 @@ export const TaskProvider = ({ children }) => {
         removeById,
         addTask,
         task_serial,
-        settask_serial
+        settask_serial,
+        addPhase
     }
 
     return (

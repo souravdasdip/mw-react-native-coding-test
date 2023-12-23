@@ -1,6 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { Dimensions, ImageBackground, StyleSheet, Text } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Phases from './components/Phases';
 import { TaskProvider } from './store/TaskContext';
 
@@ -10,12 +11,14 @@ const screenWidth = Dimensions.get('window').width;
 
 const App = () => {
   return (
-    <TaskProvider>
-      <ImageBackground source={require('./assets/background.jpg')} style={styles.backgroundImage} resizeMode="stretch">
-        <Text style={styles.title}>MW - TODO</Text>
-        <Phases />
-      </ImageBackground>
-    </TaskProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <TaskProvider>
+        <ImageBackground source={require('./assets/background.jpg')} style={styles.backgroundImage} resizeMode="stretch">
+          <Text style={styles.title}>MW - TODO</Text>
+          <Phases />
+        </ImageBackground>
+      </TaskProvider>
+    </GestureHandlerRootView>
   );
 };
 
