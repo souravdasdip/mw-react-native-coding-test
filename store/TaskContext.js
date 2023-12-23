@@ -7,7 +7,7 @@ export const useTaskContext = () => useContext(TaskContext)
 
 export const TaskProvider = ({ children }) => {
     const [phases, setPhases] = useState(phasesData);
-
+    const [task_serial, settask_serial] = useState(5)
 
     const updateCardById = (idToUpdate, newTitle, newDescription) => {
         const updatedData = phases.map(section => {
@@ -38,12 +38,32 @@ export const TaskProvider = ({ children }) => {
             return section;
         });
         setPhases(updatedData);
+        settask_serial(prev => prev - 1)
     };
+
+    const addTask = (sectionId, newTask) => {
+        const updatedData = phases.map(section => {
+            if (section.id === sectionId && section.cards) {
+                const newCards = [...section.cards, newTask];
+                return { ...section, cards: newCards };
+            } else if (section.id === sectionId && !section.cards) {
+                const newCards = [newTask];
+                return { ...section, cards: newCards };
+            }
+
+            return section;
+        });
+        setPhases(updatedData);
+    };
+
 
     const value = {
         phases,
         updateCardById,
-        removeById
+        removeById,
+        addTask,
+        task_serial,
+        settask_serial
     }
 
     return (

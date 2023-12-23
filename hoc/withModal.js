@@ -1,20 +1,26 @@
 import React, { useState } from 'react';
-import { Button, KeyboardAvoidingView, Modal, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Button, KeyboardAvoidingView, Modal, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useTaskContext } from '../store/TaskContext';
 
 export const withModal = (WrappedComponent) => {
     return function WithModal(props) {
         const [modalVisible, setModalVisible] = useState(false);
-
         const [task, setTask] = useState({
             title: '',
             description: ''
         });
+        const [phase__id, setphase__id] = useState(null)
+        const { settask_serial, task_serial, updateCardById, addTask } = useTaskContext()
 
-        const { updateCardById } = useTaskContext()
 
-        const openModal = (card) => {
-            setTask(card);
+        const openModal = ({ card, phase_id }) => {
+            setphase__id(phase_id)
+
+            setTask(card || {
+                title: '',
+                description: ''
+            });
+
             setModalVisible(true);
         };
 
@@ -24,8 +30,15 @@ export const withModal = (WrappedComponent) => {
 
 
         const onSubmit = () => {
-            updateCardById(task?.id, task.title, task.description);
-            closeModal()
+            if (!phase__id) {
+                updateCardById(task?.id, task.title, task.description);
+                closeModal()
+            } else {
+                if (!task.title || !task.description) return Alert.alert("All the fields required...")
+                addTask(phase__id, { id: task_serial, ...task })
+                settask_serial(prev => prev + 1)
+                closeModal()
+            }
         }
 
         return (

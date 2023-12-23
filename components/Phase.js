@@ -5,7 +5,6 @@ import Button from './Button';
 import Card from './Card';
 
 const Phase = ({ phase, openModal }) => {
-
   return (
     <View>
       <View style={styles.container}>
@@ -16,7 +15,7 @@ const Phase = ({ phase, openModal }) => {
 
         <ScrollView>
           {phase.cards?.map(card => <Card key={card.id} card={card} />)}
-          <Button onPress={openModal} title={'+ Add card'} />
+          <Button onPress={() => openModal({ phase_id: phase.id })} title={'+ Add card'} />
         </ScrollView>
       </View>
 

@@ -5,8 +5,9 @@ import { useTaskContext } from '../store/TaskContext';
 
 const Card = ({ card, openModal }) => {
   const { removeById } = useTaskContext()
+
   return (
-    <TouchableOpacity onPress={() => openModal(card)} style={styles.container}>
+    <TouchableOpacity onPress={() => openModal({ card })} style={styles.container}>
       <Text style={styles.title}>{card.title}</Text>
       <Text style={styles.description}>{card.description}</Text>
       <Pressable onPress={() => removeById(card.id)} style={styles.remove}>
