@@ -29,9 +29,21 @@ export const TaskProvider = ({ children }) => {
         setPhases(updatedData);
     };
 
+    const removeById = (idToRemove) => {
+        const updatedData = phases.map(section => {
+            if (section.cards) {
+                const filteredCards = section.cards.filter(card => card.id !== idToRemove);
+                return { ...section, cards: filteredCards };
+            }
+            return section;
+        });
+        setPhases(updatedData);
+    };
+
     const value = {
         phases,
-        updateCardById
+        updateCardById,
+        removeById
     }
 
     return (
