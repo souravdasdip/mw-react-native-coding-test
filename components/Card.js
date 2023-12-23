@@ -1,19 +1,38 @@
-import React from 'react';
-import { Pressable, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import React, { useRef } from 'react';
+import { Animated, PanResponder, Pressable, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { withModal } from '../hoc/withModal';
 import { useTaskContext } from '../store/TaskContext';
 
 const Card = ({ card, openModal }) => {
   const { removeById } = useTaskContext()
 
+  const pan = useRef(new Animated.ValueXY()).current;
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderMove: Animated.event([null, { dx: pan.x, dy: pan.y }]),
+      onPanResponderRelease: () => {
+        pan.extractOffset();
+      },
+    }),
+  ).current;
+
   return (
-    <TouchableOpacity onPress={() => openModal({ card })} style={styles.container}>
-      <Text style={styles.title}>{card.title}</Text>
-      <Text style={styles.description}>{card.description}</Text>
-      <Pressable onPress={() => removeById(card.id)} style={styles.remove}>
-        <Text>❌</Text>
-      </Pressable>
-    </TouchableOpacity>
+    <Animated.View
+      style={{
+        transform: [{ translateX: pan.x }, { translateY: pan.y }],
+      }}
+      {...panResponder.panHandlers}>
+
+      <TouchableOpacity onPress={() => openModal({ card })} style={styles.container}>
+        <Text style={styles.title}>{card.title}</Text>
+        <Text style={styles.description}>{card.description}</Text>
+        <Pressable onPress={() => removeById(card.id)} style={styles.remove}>
+          <Text>❌</Text>
+        </Pressable>
+      </TouchableOpacity>
+    </Animated.View>
   );
 };
 
